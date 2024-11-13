@@ -74,9 +74,31 @@ const getOneAppointment = async (req, res) => {
   }
 };
 
+const deleteOneAppointment = async (req, res) => {
+  try {
+    const appointmentId = req.body.id;
 
+    if (!mongoose.Types.ObjectId.isValid(appointmentId)) {
+      res.status(400).json({ status: "error", msg: "invalid appointment ID" });
+    } else {
+      const appointment = await AppointmentsModel.findById(appointmentId);
 
-module.exports = { seedAppointments, getAllAppointments, getOneAppointment };
+      if (appointment) {
+        await AppointmentsModel.findByIdAndDelete(appointmentId);
+        res.json({ status: "ok", msg: "appointment deleted" });
+      } else {
+        res.status(400).json({ status: "error", msg: "no appointment found" });
+      }
+    }
+  } catch (error) {
+    console.error(error.message);
+    res
+      .status(400)
+      .json({ status: "error", msg: "error getting appointments" });
+  }
+};
+
+module.exports = { seedAppointments, getAllAppointments, getOneAppointment, deleteOneAppointment };
 
 /* workings
 
