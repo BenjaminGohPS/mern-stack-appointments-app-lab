@@ -98,14 +98,48 @@ const deleteOneAppointment = async (req, res) => {
   }
 };
 
-module.exports = { seedAppointments, getAllAppointments, getOneAppointment, deleteOneAppointment };
+const addAppointment = async (req, res) => {
+  try {
+    const existingAppointment = await AppointmentsModel.findOne({
+      name: req.body.name,
+      date: req.body.date,
+    });
+
+    if (existingAppointment) {
+      res.status(400).json({
+        status: "error",
+        msg: "An appointment with the same name and date exists",
+      });
+    } else {
+      const newAppointment = new AppointmentsModel({
+        name: req.body.name,
+        date: req.body.date,
+        location: req.body.location,
+      });
+
+      await newAppointment.save();
+      res.json({ status: "ok", msg: "appointment added" });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).json({ status: "error", msg: "error adding appointment" });
+  }
+};
+
+module.exports = {
+  seedAppointments,
+  getAllAppointments,
+  getOneAppointment,
+  deleteOneAppointment,
+  addAppointment,
+};
 
 /* workings
 
 ok Get - getAllAppointment
 ok Post - getOneAppointment
-Put - addAppointment
-Delete - deleteOneAppointment
+ Put - addAppointment
+ok Delete - deleteOneAppointment
 patch - updateOneAppointment
 
 

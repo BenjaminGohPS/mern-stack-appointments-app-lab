@@ -5,11 +5,13 @@ const {
   getAllAppointments,
   getOneAppointment,
   deleteOneAppointment,
+  addAppointment,
 } = require("../controllers/appointments");
 
 router.get("/appointments/seed", seedAppointments);
 router.get("/appointments", getAllAppointments);
 router.post("/appointments", getOneAppointment);
-router.put("/appointments", deleteOneAppointment);
+router.delete("/appointments", deleteOneAppointment);
+router.put("/appointments", addAppointment);
 
 module.exports = router;
