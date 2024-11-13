@@ -8,21 +8,39 @@ const seedAppointments = async (req, res) => {
     await AppointmentsModel.create([
       {
         _id: "64d0f3f75676c304033d8c8a",
-        name: "Dental appointment",
+        title: "Dental appointment",
+        type: "Medical",
+        purpose: "Medical",
+        company: "NUH",
+        address: "5 Lower Kent Ridge Rd, Singapore 119074",
+        personnel: "Dr Low",
         date: "14/12/2024",
-        location: "Clementi",
+        time: "2pm",
+        comments: "Medical Review with Dr Low",
       },
       {
         _id: "64d0f3f75676c304033d8c8b",
-        name: "Dinner with friends",
+        title: "Dinner with friends",
+        type: "Dinner",
+        purpose: "Catch up with friends",
+        company: "NA",
+        address: "TBC",
+        personnel: "Alvin, John, Marcus",
         date: "18/12/2024",
-        location: "TBC",
+        time: "7pm",
+        comments: "Monthly catch up over dinner",
       },
       {
         _id: "64d0f3f75676c304033d8c8c",
-        name: "Movie",
+        title: "Movie Night",
+        type: "Movie",
+        purpose: "Movie time",
+        company: "NA",
+        address: "Plaza Singapore",
+        personnel: "Jane",
         date: "20/12/2024",
-        location: "Plaza Singapura",
+        time: "10pm",
+        comments: "bring flowers",
       },
     ]);
 
@@ -101,7 +119,7 @@ const deleteOneAppointment = async (req, res) => {
 const addAppointment = async (req, res) => {
   try {
     const existingAppointment = await AppointmentsModel.findOne({
-      name: req.body.name,
+      title: req.body.name,
       date: req.body.date,
     });
 
@@ -112,9 +130,15 @@ const addAppointment = async (req, res) => {
       });
     } else {
       const newAppointment = new AppointmentsModel({
-        name: req.body.name,
+        title: req.body.title,
+        type: req.body.type,
+        purpose: req.body.purpose,
+        company: req.body.company,
+        address: req.body.address,
+        personnel: req.body.personnel,
         date: req.body.date,
-        location: req.body.location,
+        time: req.body.time,
+        comments: req.body.comments,
       });
 
       await newAppointment.save();
@@ -126,21 +150,56 @@ const addAppointment = async (req, res) => {
   }
 };
 
+const updateOneAppointment = async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(appointmentId)) {
+      res.status(400).json({ status: "error", msg: "invalid appointment ID" });
+    } else {
+      const appointment = await AppointmentsModel.findById(appointmentId);
+
+      if (appointment) {
+        await AppointmentsModel.findByIdAndUpdate(appointmentId, {
+          title: req.body.title || appointment.title,
+          type: req.body.type || appointment.type,
+          purpose: req.body.purpose || appointment.purpose,
+          company: req.body.company || appointment.company,
+          address: req.body.address || appointment.address,
+          personnel: req.body.personnel || appointment.personnel,
+          date: req.body.date || appointment.date,
+          time: req.body.time || appointment.time,
+          comments: req.body.comments || appointment.comments,
+        });
+        res.json({ status: "ok", msg: "appointment updated" });
+      } else {
+        res.status(400).json({ status: "error", msg: "no appointment found" });
+      }
+    }
+  } catch (error) {
+    console.error(error.message);
+    res
+      .status(400)
+      .json({ status: "error", msg: "error updating appointment" });
+  }
+};
+
 module.exports = {
   seedAppointments,
   getAllAppointments,
   getOneAppointment,
   deleteOneAppointment,
   addAppointment,
+  updateOneAppointment,
 };
 
 /* workings
 
 ok Get - getAllAppointment
 ok Post - getOneAppointment
- Put - addAppointment
+ok Put - addAppointment
 ok Delete - deleteOneAppointment
-patch - updateOneAppointment
+ok patch - updateOneAppointment
 
 
 

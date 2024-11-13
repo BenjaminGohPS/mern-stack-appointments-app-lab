@@ -2,9 +2,20 @@ const mongoose = require("mongoose");
 
 const AppointmentsSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, minLength: 1 },
+    title: { type: String, required: true, minLength: 1 },
+    type: { type: String, required: true, minLength: 1 },
+    purpose: {
+      type: String,
+      required: false,
+      minLength: 1,
+      default: "Appointment",
+    },
+    company: { type: String, required: false, minLength: 1, default: "NA" },
+    address: { type: String, required: false, default: "TBC" },
+    personnel: { type: String, required: false, default: "TBC" },
     date: { type: String, required: true },
-    location: { type: String, required: false, default: "TBC" },
+    time: { type: String, required: true },
+    comments: { type: String, required: false },
   },
   { collection: "appointments" }
 );
