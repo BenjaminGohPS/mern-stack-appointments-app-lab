@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Appointments.module.css";
 import UpdateModal from "./UpdateModal";
-import AddAppointmentModal from "./AddAppointmentModal";
 
 const Appointments = (props) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);

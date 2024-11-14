@@ -65,16 +65,6 @@ const Display = () => {
 
       {showAddAppointmentModal && (
         <AddAppointmentModal
-          // id={props.id}
-          // title={props.title}
-          // type={props.type}
-          // purpose={props.purpose}
-          // company={props.company}
-          // address={props.address}
-          // personnel={props.personnel}
-          // date={props.date}
-          // time={props.time}
-          // comments={props.comments}
           getAppointments={getAppointments}
           setShowAddAppointmentModal={setShowAddAppointmentModal}
         />

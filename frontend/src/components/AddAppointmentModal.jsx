@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ReactDom from "react-dom";
 import styles from "./Modal.module.css";
 import useFetch from "../hooks/useFetch";
 
 const OverLay = (props) => {
-  //codes
   const fetchData = useFetch();
   const titleRef = useRef("");
   const typeRef = useRef("");
@@ -21,6 +20,19 @@ const OverLay = (props) => {
   const addAppointment = async () => {
     setIsError(false);
     setError(null);
+
+    if (
+      !titleRef.current.value ||
+      !typeRef.current.value ||
+      !dateRef.current.value ||
+      !timeRef.current.value
+    ) {
+      setIsError(true);
+      setError(
+        "Please fill in all required fields: Title, Type, Date, and Time."
+      );
+      return;
+    }
 
     const res = await fetchData("/lab/appointments", "PUT", {
       title: titleRef.current.value,
@@ -44,22 +56,16 @@ const OverLay = (props) => {
     }
   };
 
-  useEffect(() => {
-    // titleRef.current.value = props.title;
-    // typeRef.current.value = props.type;
-    // purposeRef.current.value = props.purpose;
-    // companyRef.current.value = props.company;
-    // addressRef.current.value = props.address;
-    // personnelRef.current.value = props.personnel;
-    // dateRef.current.value = props.date;
-    // timeRef.current.value = props.time;
-    // commentsRef.current.value = props.comments;
-  }, []);
-
   return (
     <div className={styles.backdrop}>
       {isError && error}
       <div className={styles.modal}>
+        {isError && (
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        )}
+
         <div className="row">
           <div className="col-md-3"></div>
           <p className="col-md-9">
