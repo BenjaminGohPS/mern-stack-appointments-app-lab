@@ -10,12 +10,12 @@ const AppointmentsSchema = new mongoose.Schema(
       minLength: 1,
       default: "Appointment",
     },
-    company: { type: String, required: false, minLength: 1, default: "NA" },
+    company: { type: String, required: false, minLength: 1, default: "N/A" },
     address: { type: String, required: false, default: "TBC" },
     personnel: { type: String, required: false, default: "TBC" },
     date: { type: String, required: true },
     time: { type: String, required: true },
-    comments: { type: String, required: false },
+    comments: { type: String, required: false, default: "nil" },
   },
   { collection: "appointments" }
 );
