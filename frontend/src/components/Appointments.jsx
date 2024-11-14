@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import styles from "./Appointments.module.css";
 import UpdateModal from "./UpdateModal";
+import AddAppointmentModal from "./AddAppointmentModal";
 
 const Appointments = (props) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  const handleDelete = () => {
+    const isConfirmed = window.confirm("Delete appointment?");
+
+    if (isConfirmed) {
+      props.deleteAppointment(props.id);
+    }
+  };
 
   return (
     <div>
@@ -32,16 +41,16 @@ const Appointments = (props) => {
               <strong>Type:</strong> {props.type || "N/A"}
             </p>
             <p className="card-text">
-              <strong>Purpose:</strong> {props.purpose || "N/A"}
+              <strong>Purpose:</strong> {props.purpose || "Appointment"}
             </p>
             <p className="card-text">
               <strong>Company:</strong> {props.company || "N/A"}
             </p>
             <p className="card-text">
-              <strong>Address:</strong> {props.address || "N/A"}
+              <strong>Address:</strong> {props.address || "TBC"}
             </p>
             <p className="card-text">
-              <strong>Personnel:</strong> {props.personnel || "N/A"}
+              <strong>Personnel:</strong> {props.personnel || "TBC"}
             </p>
             <p className="card-text">
               <strong>Date:</strong> {props.date || "N/A"}
@@ -50,7 +59,7 @@ const Appointments = (props) => {
               <strong>Time:</strong> {props.time || "N/A"}
             </p>
             <p className="card-text">
-              <strong>Comments:</strong> {props.comments || "N/A"}
+              <strong>Comments:</strong> {props.comments || "nil"}
             </p>
             <>
               <button
@@ -59,10 +68,7 @@ const Appointments = (props) => {
               >
                 update
               </button>
-              <button
-                className="btn btn-primary"
-                onClick={() => props.deleteAppointment(props.id)}
-              >
+              <button className="btn btn-outline-danger" onClick={handleDelete}>
                 delete
               </button>
             </>

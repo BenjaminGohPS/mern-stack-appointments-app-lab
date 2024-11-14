@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import Appointments from "./Appointments";
+import AddAppointmentModal from "./AddAppointmentModal";
 
 const Display = () => {
   const [appointments, setAppointments] = useState([]);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const fetchData = useFetch();
+  const [showAddAppointmentModal, setShowAddAppointmentModal] = useState(false);
 
   const getAppointments = async () => {
     setIsError(false);
@@ -23,7 +25,7 @@ const Display = () => {
     }
   };
 
-  // addAppointment
+  // addAppointment don't need put here
 
   const deleteAppointment = async (id) => {
     setIsError(false);
@@ -51,7 +53,33 @@ const Display = () => {
       {isError && error}
       <div className="row">
         <h1 className="col-md">Appointment List</h1>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            setShowAddAppointmentModal(true);
+          }}
+        >
+          Add Appointment
+        </button>
       </div>
+
+      {showAddAppointmentModal && (
+        <AddAppointmentModal
+          // id={props.id}
+          // title={props.title}
+          // type={props.type}
+          // purpose={props.purpose}
+          // company={props.company}
+          // address={props.address}
+          // personnel={props.personnel}
+          // date={props.date}
+          // time={props.time}
+          // comments={props.comments}
+          getAppointments={getAppointments}
+          setShowAddAppointmentModal={setShowAddAppointmentModal}
+        />
+      )}
+      <br />
 
       <div className="row">
         <div className="col-md"></div>

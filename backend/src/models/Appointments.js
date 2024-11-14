@@ -7,10 +7,9 @@ const AppointmentsSchema = new mongoose.Schema(
     purpose: {
       type: String,
       required: false,
-      minLength: 1,
       default: "Appointment",
     },
-    company: { type: String, required: false, minLength: 1, default: "N/A" },
+    company: { type: String, required: false, default: "N/A" },
     address: { type: String, required: false, default: "TBC" },
     personnel: { type: String, required: false, default: "TBC" },
     date: { type: String, required: true },
